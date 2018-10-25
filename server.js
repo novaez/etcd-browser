@@ -27,8 +27,10 @@ if(cert_file) {
   }
 }
 
-var etcdHost = process.env.ETCD_HOST || '172.17.42.1';
-var etcdPort = process.env.ETCD_PORT || 4001;
+var etcdHost = process.env.ETCD_HOST;
+var etcdPort = process.env.ETCD_PORT || 2379;
+var etcdUser = process.env.ETCD_USER || 'etcd-browser';
+var etcdPass = process.env.ETCD_PASS;
 var serverPort = process.env.SERVER_PORT || 8000;
 var publicDir = 'frontend';
 var authUser = process.env.AUTH_USER;
@@ -83,6 +85,7 @@ function proxy(client_req, client_res) {
     hostname: etcdHost,
     port: etcdPort,
     path: client_req.url,
+    auth: etcdUser + ':' + etcdPass,
     method: client_req.method
   };
 
